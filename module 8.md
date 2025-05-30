@@ -1,242 +1,106 @@
-EXP NO:6 C PROGRAM PRINT THE LOWERCASE ENGLISH WORD CORRESPONDING TO THE NUMBER
+EXP NO:11 C PROGRAM TO DISPLAY STACK ELEMENTS USING AN ARRAY.
+
 Aim:
-To write a C program print the lowercase English word corresponding to the number
+To write a C program to display stack elements using an array.
 Algorithm:
-1.	Start
-- Initialize an integer variable n.
-2.	Input Validation
-3.	Switch Statement cases.
--	Case 5: Print "seventy one"
--	Case 6: Print "seventy two"
--	Case 13: Print "seventy three"
--	...
--	Case 13: Print "seventy nine"
--	Default: Print "Greater than 13"
-4.	Exit the program.
+1.	Include Necessary Header Files
+2.	Declare Global Variables
+3.	Define the Display Function
+4.	Main Function (or Other Relevant Code)
+5.	Initialize the stack and top as needed.
+6.	Perform stack operations (push, pop, etc.).
+7.	Use the display function to visualize the stack's contents
  
 Program:
 ```
 #include <stdio.h>
-int main() {
-    int n;
-    printf("Enter a number: ");
-    if (scanf("%d", &n) != 1) {
-        printf("Invalid input\n");
-        return 1;
-    }
-    switch (n) {
-        case 5:
-            printf("seventy one\n");
-            break;
-        case 6:
-            printf("seventy two\n");
-            break;
-        case 13:
-            printf("seventy three\n");
-            break;
-        case 14:
-            printf("seventy four\n");
-            break;
-        case 15:
-            printf("seventy five\n");
-            break;
-        case 16:
-            printf("seventy six\n");
-            break;
-        case 17:
-            printf("seventy seven\n");
-            break;
-        case 18:
-            printf("seventy eight\n");
-            break;
-        case 19:
-            printf("seventy nine\n");
-            break;
-        default:
-            printf("greater than 13\n");
-            break;
-    }
-    return 0;
-}
-```
-
-
-
-
-
-Output:
-```
-Enter a number: 5
-seventy one
-```
-
-
-
-
-
-
-
-Result:
-Thus, the program is verified successfully
- 
-EXP NO:7 C PROGRAM TO PRINT TEN SPACE-SEPARATED INTEGERS     IN A SINGLE  LINE DENOTING THE FREQUENCY OF EACH DIGIT FROM 0 TO 3 .
-Aim:
-To write a C program to print ten space-separated integers in a single line denoting the frequency of each digit from 0 to 3.
-Algorithm:
-1.	Start
-2.	Declare char array a[50] outer loop for each digit from 0 to 3
-3.	Initialize counter c to 0
-4.	For each character in the string print count c for current digit, followed by a space
-5.	Increment h to move to the next digit
-6.	End
- 
-Program:
-```
-#include <stdio.h>
-#include <string.h>
-int main() {
-    char a[50];
-    int i, h, c;
-    printf("Enter a string of digits: ");
-    scanf("%s", a);
-    for (h = 0; h <= 3; h++) {
-        c = 0;
-        for (i = 0; a[i] != '\0'; i++) {
-            if (a[i] == (h + '0')) {
-                c++;
-            }
-        }
-        printf("%d ", c);
-    }
-    for (h = 4; h <= 9; h++) {
-        printf("0 ");
-    }
-    printf("\n");
-    return 0;
-}
-```
-
-
-
-
-
-
-
-Output:
-```
-Enter a string of digits: 012301230123
-3 3 3 3 0 0 0 0 0 0
-```
-
-
-
-
-
-
-
-Result:
-Thus, the program is verified successfully
-
-EXP NO:8 C PROGRAM TO PRINT ALL OF ITS PERMUTATIONS IN STRICT LEXICOGRAPHICAL ORDER.
-Aim:
-To write a C program to print all of its permutations in strict lexicographical order.
-
-Algorithm:
-1.	Start
-2.	Declare variables s (pointer to an array of strings) and n (number of strings)
-
-3.	Memory Allocation
-Dynamically allocate memory for s to store an array of strings
-4.	Input
-Read the number of strings n from the user Dynamically allocate memory for each string in s
-5.	Permutation Generation Loop
-6.	Memory Deallocation
-Free the memory allocated for each string in s Free the memory allocated for s
-7.	End
- 
-Program:
-```
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-void swap(char **x, char **y) {
-    char *temp = *x;
-    *x = *y;
-    *y = temp;
-}
-int compare(const void *a, const void *b) {
-    return strcmp(*(char **)a, *(char **)b);
-}
-void permute(char **s, int l, int r) {
-    if (l == r) {
-        for (int i = 0; i <= r; i++) {
-            printf("%s ", s[i]);
-        }
-        printf("\n");
+#define SIZE 100  
+int stack[SIZE];
+int top = -1;
+void display() {
+    if (top == -1) {
+        printf("Stack is empty.\n");
         return;
     }
-    for (int i = l; i <= r; i++) {
-        if (i != l && strcmp(s[i], s[l]) == 0) continue;
-        swap(&s[l], &s[i]);
-        permute(s, l + 1, r);
-        swap(&s[l], &s[i]); 
+    printf("Stack elements (top to bottom):\n");
+    for (int i = top; i >= 0; i--) {
+        printf("%d\n", stack[i]);
     }
 }
-
+void push(int value) {
+    if (top == SIZE - 1) {
+        printf("Stack overflow! Cannot push %d\n", value);
+    } else {
+        stack[++top] = value;
+        printf("%d pushed to stack.\n", value);
+    }
+}
+void pop() {
+    if (top == -1) {
+        printf("Stack underflow! Nothing to pop.\n");
+    } else {
+        printf("%d popped from stack.\n", stack[top--]);
+    }
+}
 int main() {
-    int n;
-    char **s;
-    printf("Enter number of strings: ");
-    scanf("%d", &n);
-    s = (char **)malloc(n * sizeof(char *));
-    if (s == NULL) {
-        printf("Memory allocation failed.\n");
-        return 1;
-    }
-    for (int i = 0; i < n; i++) {
-        s[i] = (char *)malloc(100 * sizeof(char)); 
-        if (s[i] == NULL) {
-            printf("Memory allocation failed.\n");
-            return 1;
+    int choice, value;
+    while (1) {
+        printf("\nStack Operations Menu:\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Display Stack\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter value to push: ");
+                scanf("%d", &value);
+                push(value);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();  
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Try again.\n");
         }
-        printf("Enter string %d: ", i + 1);
-        scanf("%s", s[i]);
     }
-    qsort(s, n, sizeof(char *), compare);
-    printf("\nPermutations in lexicographical order:\n");
-    permute(s, 0, n - 1);
-    for (int i = 0; i < n; i++) {
-        free(s[i]);
-    }
-    free(s);
     return 0;
 }
 ```
 
 
-
-
-
 Output:
 ```
-Input
-Enter number of strings: 3
-Enter string 1: cat
-Enter string 2: bat
-Enter string 3: ant
-Output
-Permutations in lexicographical order:
-ant bat cat
-ant cat bat
-bat ant cat
-bat cat ant
-cat ant bat
-cat bat ant
-
-
+Stack Operations Menu:
+1. Push
+2. Pop
+3. Display Stack
+4. Exit
+Enter your choice: 1
+Enter value to push: 10
+10 pushed to stack.
+Enter your choice: 1
+Enter value to push: 20
+20 pushed to stack.
+Enter your choice: 3
+Stack elements (top to bottom):
+20
+10
+Enter your choice: 2
+20 popped from stack.
+Enter your choice: 3
+Stack elements (top to bottom):
+10
+Enter your choice: 4
+Exiting program.
 ```
-
-
 
 
 
@@ -244,39 +108,67 @@ cat bat ant
 
 
 Result:
-Thus, the program is verified successfully
+Thus, the program to display stack elements using an array is verified successfully.
  
-EXP NO:9 C PROGRAM PRINT A PATTERN OF NUMBERS FROM 1 TO N AS
-SHOWN BELOW.
+
+EXP NO:12  PROGRAM TO PUSH THE GIVEN ELEMENT IN TO A STACK USING ARRAY.
 Aim:
-To write a C program to print a pattern of numbers from 1 to n as shown below.
+To create a C program to push the given element in to a stack using array.
 Algorithm:
-1.	Start
-2.	Declare integer variables n, i, j, min
-3.	Read the value of n from the user
-4.	Calculate the length of the side of the square matrix: len = n * 2 - 1
-5.	Matrix Generation Loop
-6.	Calculate min as the minimum distance to the borders
-7.	End
+1.	Declare global variables for the stack size, top index, and the stack itself.
+2.	Define the push function to add a floating-point number to the stack.
+3.	Initialize the stack size, top index, and the stack itself.
+4.	Call the push function as needed.
  
 Program:
 ```
 #include <stdio.h>
-int min(int a, int b) {
-    return (a < b) ? a : b;
+float stack[SIZE]; 
+int top = -1;      
+void push(float value) {
+    if (top >= SIZE - 1) {
+        printf("Stack Overflow! Cannot push %.2f\n", value);
+    } else {
+        top++;
+        stack[top] = value;
+        printf("%.2f pushed to stack at position %d\n", value, top);
+    }
+}
+void display() {
+    if (top == -1) {
+        printf("Stack is empty.\n");
+        return;
+    }
+    printf("Current Stack (top to bottom):\n");
+    for (int i = top; i >= 0; i--) {
+        printf("%.2f\n", stack[i]);
+    }
 }
 int main() {
-    int n, i, j, minDist;
-    printf("Enter the value of n: ");
-    scanf("%d", &n);
-    int len = n * 2 - 1;
-    for (i = 0; i < len; i++) {
-        for (j = 0; j < len; j++) {
-           
-            minDist = min(min(i, j), min(len - 1 - i, len - 1 - j));
-            printf("%d ", n - minDist);
+    int choice;
+    float value;
+    while (1) {
+        printf("\nStack Push Menu:\n");
+        printf("1. Push Element\n");
+        printf("2. Display Stack\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter a floating-point value to push: ");
+                scanf("%f", &value);
+                push(value);
+                break;
+            case 2:
+                display();
+                break;
+            case 3:
+                printf("Exiting...\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
         }
-        printf("\n");
     }
     return 0;
 }
@@ -284,87 +176,330 @@ int main() {
 
 
 
-
-
-
 Output:
 ```
-Input:
-Enter the value of n: 4
-Output:
-4 4 4 4 4 4 4
-4 3 3 3 3 3 4
-4 3 2 2 2 3 4
-4 3 2 1 2 3 4
-4 3 2 2 2 3 4
-4 3 3 3 3 3 4
-4 4 4 4 4 4 4
+Stack Push Menu:
+1. Push Element
+2. Display Stack
+3. Exit
+Enter your choice: 1
+Enter a floating-point value to push: 12.5
+12.50 pushed to stack at position 0
+
+Enter your choice: 1
+Enter a floating-point value to push: 7.25
+7.25 pushed to stack at position 1
+
+Enter your choice: 2
+Current Stack (top to bottom):
+7.25
+12.50
 ```
-
-
-
-
-
 
 
 
 
 
 Result:
-Thus, the program is verified successfully
+Thus, the program to push the given element in to a stack using array is verified successfully
 
-EXP NO:10 C PROGRAM TO FIND A SQUARE  OF NUMBER USING FUNCTION WITHOUT ARGUMENTS WITH RETURN TYPE
 
+ 
+EXP NO:13 C PROGRAM TO DISPLAY QUEUE ELEMENTS USING ARRAY.
 Aim:
-
-To write a C program that calculates the square of a number using a function that does not take any arguments, but returns the square of the number.
+To write a C program to display queue elements using array
 
 Algorithm:
+1.	Declare global variables for the queue, rear, front, and iteration.
+2.	Define the display function to print the elements of the queue.
+3.	Initialize the queue, rear, and front as needed.
+4.	Call the display function and perform other queue operations as needed.
+ 
+Program:
+```
+#include <stdio.h>
+#define SIZE 100 
+int queue[SIZE];
+int front = -1, rear = -1;
+void enqueue(int value) {
+    if (rear == SIZE - 1) {
+        printf("Queue Overflow! Cannot enqueue %d\n", value);
+        return;
+    }
+    if (front == -1) front = 0;
+    queue[++rear] = value;
+    printf("%d enqueued to queue.\n", value);
+}
+void dequeue() {
+    if (front == -1 || front > rear) {
+        printf("Queue Underflow! Nothing to dequeue.\n");
+        return;
+    }
+    printf("%d dequeued from queue.\n", queue[front++]);
+    if (front > rear) {
+        front = rear = -1;
+    }
+}
+void display() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty.\n");
+        return;
+    }
+    printf("Queue elements (front to rear):\n");
+    for (int i = front; i <= rear; i++) {
+        printf("%d ", queue[i]);
+    }
+    printf("\n");
+}
+int main() {
+    int choice, value;
+    while (1) {
+        printf("\nQueue Operations Menu:\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display Queue\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter value to enqueue: ");
+                scanf("%d", &value);
+                enqueue(value);
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+    return 0;
+}
+```
 
-1.	Start.
-2.	Define a function square() with no parameters. This function will return an integer value.
-3.	Inside the function:
-o	Declare an integer variable to store the number.
-o	Ask the user to input a number.
-o	Calculate the square of the number (multiply the number by itself).
-o	Return the squared value.
-4.	In the main function:
-o	Call the square() function and display the result.
-5.	End.
+Output:
+```
+Queue Operations Menu:
+1. Enqueue
+2. Dequeue
+3. Display Queue
+4. Exit
+Enter your choice: 1
+Enter value to enqueue: 10
+10 enqueued to queue.
+
+Enter your choice: 1
+Enter value to enqueue: 20
+20 enqueued to queue.
+
+Enter your choice: 3
+Queue elements (front to rear):
+10 20
+
+Enter your choice: 2
+10 dequeued from queue.
+
+Enter your choice: 3
+Queue elements (front to rear):
+20
+```
+
+
+Result:
+Thus, the program to display queue elements using array is verified successfully.
+
+
+ 
+EXP NO:14 C PROGRAM TO INSERT ELEMENTS IN QUEUE USING ARRAY.
+Aim:
+To write a C program to insert elements in queue using array.
+
+Algorithm:
+1.	Declare global variables for the size, rear, front, and the queue itself.
+2.	Define the enqueue function to add a float to the queue.
+3.	Initialize the rear, front, and size of the queue as needed.
+4.	Call the enqueue function as needed.
 
 Program:
 ```
 #include <stdio.h>
-int square() {
-    int num;
-    printf("Enter a number: ");
-    scanf("%d", &num);
-    return num * num;
+#define SIZE 100 
+float queue[SIZE];
+int front = -1, rear = -1;
+void enqueue(float value) {
+    if (rear == SIZE - 1) {
+        printf("Queue Overflow! Cannot enqueue %.2f\n", value);
+        return;
+    }
+    if (front == -1) {
+        front = 0;
+    }
+    queue[++rear] = value;
+    printf("%.2f enqueued to queue.\n", value);
+}
+void display() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty.\n");
+        return;
+    }
+    printf("Queue elements (front to rear):\n");
+    for (int i = front; i <= rear; i++) {
+        printf("%.2f ", queue[i]);
+    }
+    printf("\n");
 }
 int main() {
-    int result = square();
-    printf("Square of the number is: %d\n", result);
+    int choice;
+    float value;
+    while (1) {
+        printf("\nQueue Operations Menu:\n");
+        printf("1. Enqueue (Insert)\n");
+        printf("2. Display Queue\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter a float value to enqueue: ");
+                scanf("%f", &value);
+                enqueue(value);
+                break;
+            case 2:
+                display();
+                break;
+            case 3:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+    }
     return 0;
 }
 ```
 
 
 
+Output:
+```
+Queue Operations Menu:
+1. Enqueue (Insert)
+2. Display Queue
+3. Exit
+Enter your choice: 1
+Enter a float value to enqueue: 3.14
+3.14 enqueued to queue.
+
+Enter your choice: 1
+Enter a float value to enqueue: 2.71
+2.71 enqueued to queue.
+
+Enter your choice: 2
+Queue elements (front to rear):
+3.14 2.71
+
+Enter your choice: 3
+Exiting program.
+```
 
 
+Result:
+Thus, the program to insert elements in queue using array is verified successfully.
+
+
+
+ 
+EXP NO:15 C FUNCTION TO DELETE ELEMENTS IN QUEUE USING ARRAY
+
+
+
+Aim:
+
+To create a function in C that deletes an element from a queue implemented using an array.
+
+Algorithm:
+
+1.	Check if the Queue is Empty
+o	If the front pointer is -1, it means the queue is empty, and there are no elements to delete. Print a message indicating that the queue is empty.
+2.	Delete the Front Element
+o	If the queue is not empty, the element at the front index is deleted.
+o	Increment the front pointer by 1 to remove the element and point to the next element in the queue.
+3.	Check if the Queue Becomes Empty After Deletion:
+o	After deletion, check if the front pointer has passed the rear pointer (front > rear). If this is true, reset both front and rear to -1, indicating that the queue is now empty.
+4.	End the Function.
+
+
+
+Program:
+```
+#include <stdio.h>
+#define SIZE 100
+int queue[SIZE];
+int front = -1, rear = -1;
+void dequeue() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty. No elements to delete.\n");
+        return;
+    }
+    printf("Deleted element: %d\n", queue[front]);
+    front++;
+    if (front > rear) {
+        front = rear = -1;  
+    }
+}
+void enqueue(int value) {
+    if (rear == SIZE - 1) {
+        printf("Queue Overflow! Cannot enqueue %d\n", value);
+        return;
+    }
+    if (front == -1) front = 0;
+    queue[++rear] = value;
+}
+void display() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty.\n");
+        return;
+    }
+    printf("Queue elements: ");
+    for (int i = front; i <= rear; i++) {
+        printf("%d ", queue[i]);
+    }
+    printf("\n");
+}
+int main() {
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    display(); 
+    dequeue();  
+    display();  
+    dequeue();  
+    dequeue();  
+    dequeue();  
+    return 0;
+}
+```
 
 Output:
-Enter a number: 7
-Square of the number is: 49
-
-
-
+Queue elements: 10 20 30 
+Deleted element: 10
+Queue elements: 20 30 
+Deleted element: 20
+Deleted element: 30
+Queue is empty. No elements to delete.
 
 
 
 
 Result:
-Thus, the program is verified successfully
+Thus, the function that deletes an element from a queue implemented using an array is verified successfully.
 
 
 
